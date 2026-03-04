@@ -42,3 +42,12 @@ Recomendações: imagens em boa resolução, leves (otimize para web). Para a lo
 ## CTA
 
 Os botões já apontam para o checkout da Hotmart. Para alterar, edite o `href` dos links no `public/index.html`.
+
+## SEO para redes sociais
+
+A página já tem **Open Graph** (Facebook, WhatsApp, LinkedIn) e **Twitter Card** configurados. A imagem de preview é **imagem_produto1536x1024.png**.
+
+**Antes de publicar:** no `public/index.html`, na área de comentário "SEO Redes Sociais", substitua **SEU_DOMINIO** pela URL do seu site **sem barra no final** (ex: `https://osegredo.com.br`). Assim o preview funcionará ao compartilhar o link.
+
+- **Título no preview:** O Código de Deus — O Mapa do Código | Acesso Vitalício  
+- **Descrição:** Descubra o mapa que revela o código invisível da prosperidade e da paz. Para quem nasceu para mais. Acesso vitalício — ative seu código agora.

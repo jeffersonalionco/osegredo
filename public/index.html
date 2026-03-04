@@ -3,8 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="O Mapa do Código — Para quem sente que nasceu para mais e está pronto para parar de sobreviver e começar a viver.">
+  <meta name="description" content="O Mapa do Código — Para quem sente que nasceu para mais e está pronto para parar de sobreviver e começar a viver. Acesso vitalício.">
   <title>O Código de Deus — O Mapa está em você</title>
+
+  <!-- SEO Redes Sociais (Open Graph + Twitter Card) -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="O Código de Deus">
+  <meta property="og:title" content="O Código de Deus — O Mapa do Código | Acesso Vitalício">
+  <meta property="og:description" content="Descubra o mapa que revela o código invisível da prosperidade e da paz. Para quem nasceu para mais. Acesso vitalício — ative seu código agora.">
+  <!-- Use a URL absoluta: troque SEU_DOMINIO pelo seu domínio real (ex: https://osegredo.com.br) -->
+  <meta property="og:url" content="https://SEU_DOMINIO/">
+  <meta property="og:image" content="https://SEU_DOMINIO/imagens/imagem_produto1536x1024.png">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta property="og:image:alt" content="O Mapa do Código — Palavras de Atração Divina, O Mapa do Código e Arquivo Secreto. Acesso vitalício 100%.">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="O Código de Deus — O Mapa do Código | Acesso Vitalício">
+  <meta name="twitter:description" content="Descubra o mapa que revela o código invisível da prosperidade e da paz. Para quem nasceu para mais. Acesso vitalício — ative seu código agora.">
+  <meta name="twitter:image" content="https://SEU_DOMINIO/imagens/imagem_produto1536x1024.png">
+  <meta name="twitter:image:alt" content="O Mapa do Código — Acesso vitalício 100%. Três módulos: Palavras de Atração Divina, O Mapa do Código e Arquivo Secreto.">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -583,9 +603,9 @@
       position: fixed;
       bottom: var(--space);
       left: var(--space);
-      right: var(--space);
-      max-width: 22rem;
-      z-index: 9998;
+      right: auto;
+      max-width: min(22rem, calc(100vw - 5.5rem));
+      z-index: 9997;
       background: linear-gradient(145deg, var(--bg-card) 0%, rgba(10,10,12,0.98) 100%);
       border: 1px solid rgba(201,162,39,0.25);
       border-radius: var(--radius);
@@ -686,6 +706,12 @@
       border: none;
       display: block;
       overflow: hidden;
+    }
+    @media (min-width: 640px) {
+      .activity-notif {
+        right: var(--space);
+        max-width: 22rem;
+      }
     }
     @media (min-width: 640px) {
       .section { padding: 5rem 0; }
