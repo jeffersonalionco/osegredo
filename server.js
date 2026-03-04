@@ -20,7 +20,8 @@ const PORT = process.env.PORT || 3000;
 const ROOT = path.join(__dirname, 'public');
 
 const server = http.createServer((req, res) => {
-  const url = req.url === '/' ? '/index.html' : req.url;
+  const pathname = req.url.split('?')[0].split('#')[0];
+  const url = pathname === '/' ? '/index.html' : pathname;
   const file = path.join(ROOT, path.normalize(url).replace(/^(\.\.(\/|\\|$))+/, ''));
 
   fs.readFile(file, (err, data) => {
