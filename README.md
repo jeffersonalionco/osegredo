@@ -39,6 +39,19 @@ Coloque aqui as imagens do projeto. A página usa as seguintes (se não existire
 
 Recomendações: imagens em boa resolução, leves (otimize para web). Para a logo, prefira SVG para nitidez em qualquer tamanho.
 
+## E-mail quando alguém clica no checkout (Nodemailer)
+
+Quando alguém clica em qualquer botão de checkout, o servidor envia um e-mail para **jeffersonalionco@gmail.com** e o Google Analytics registra o evento `checkout_click`.
+
+**Para ativar o e-mail:**
+
+1. Copie **.env.example** para **.env** na raiz do projeto.
+2. No **.env**, preencha **EMAIL_USER** (seu Gmail) e **EMAIL_PASS** (senha de app do Gmail).
+3. Senha de app: Conta Google, Segurança, Verificação em 2 etapas, Senhas de app, Gerar. Use os 16 caracteres em EMAIL_PASS.
+4. Rode **npm install** e **npm start**. Deve aparecer no terminal: E-mail de checkout ativo para jeffersonalionco@gmail.com
+
+Cada clique “ir ao pagamento” gera um e-mail com assunto **"Clique no checkout - O Código de Deus"** e os dados do clique (botão, data/hora). O evento também continua sendo registrado no Google Analytics (evento `checkout_click`).
+
 ## CTA
 
 Os botões já apontam para o checkout da Hotmart. Para alterar, edite o `href` dos links no `public/index.html`.
