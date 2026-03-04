@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="O Mapa do Código — Para quem sente que nasceu para mais e está pronto para parar de sobreviver e começar a viver.">
+  <title>O Código de Deus — O Mapa está em você</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --bg-soft: #12121a;
+      --bg-card: #16161d;
+      --text: #f5f5f7;
+      --text-muted: #a1a1aa;
+      --accent: #c9a227;
+      --accent-light: #ddb83a;
+      --accent-soft: rgba(201, 162, 39, 0.15);
+      --accent-glow: rgba(201, 162, 39, 0.35);
+      --radius: 1rem;
+      --radius-lg: 1.5rem;
+      --radius-btn: 2rem;
+      --space: 1.5rem;
+      --space-lg: 3rem;
+      --space-xl: 4rem;
+      --space-xxl: 5rem;
+      --max-w: 38rem;
+      --font-head: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Outfit', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 1.0625rem;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap { width: 100%; max-width: var(--max-w); margin: 0 auto; padding: 0 var(--space); }
+    .section { padding: var(--space-xxl) 0; }
+    .section--hero { padding-top: 0; padding-bottom: var(--space-xl); }
+
+    /* Hero — Abertura intensa */
+    .hero {
+      position: relative;
+      min-height: 75vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+    .hero__cover {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(165deg, #1a1520 0%, #0d0b12 40%, #0a0a0c 100%);
+    }
+    .hero__cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% 100%, var(--accent-glow) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .hero__cover::after {
+      content: '';
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120%;
+      height: 60%;
+      background: radial-gradient(ellipse at center, rgba(201, 162, 39, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      animation: glowSoft 3s ease-in-out infinite;
+    }
+    .hero__shape {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero__shape--1 { width: 280px; height: 280px; background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%); top: 5%; right: -80px; animation: float 4s ease-in-out infinite; }
+    .hero__shape--2 { width: 180px; height: 180px; background: radial-gradient(circle, rgba(201,162,39,0.08) 0%, transparent 70%); bottom: 25%; left: -60px; animation: float 3.5s ease-in-out infinite reverse; }
+    .hero__shape--3 { width: 100px; height: 100px; border: 1px solid rgba(201,162,39,0.2); top: 40%; right: 15%; animation: float 3s ease-in-out infinite 0.5s; }
+    .hero__cover-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      opacity: 0.5;
+    }
+    .hero__cover:not(:has(.hero__cover-img[style])) .hero__cover-overlay { background: linear-gradient(180deg, rgba(10,10,12,0.3) 0%, rgba(10,10,12,0.6) 50%, rgba(10,10,12,0.9) 100%); }
+    .hero__cover-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10,10,12,0.7) 0%, rgba(10,10,12,0.4) 40%, rgba(10,10,12,0.85) 100%);
+      pointer-events: none;
+    }
+    .hero__logo-wrap {
+      position: absolute;
+      top: var(--space-lg);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+    .hero__logo {
+      height: 2.75rem;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+      opacity: 0;
+      animation: fadeIn 0.35s ease 0.05s forwards;
+    }
+    .hero__content {
+      position: relative;
+      z-index: 1;
+      padding: var(--space-lg) var(--space) var(--space-xl);
+    }
+    .hero__card {
+      position: relative;
+      background: linear-gradient(145deg, rgba(22,22,29,0.9) 0%, rgba(10,10,12,0.95) 100%);
+      border: 1px solid rgba(201,162,39,0.2);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl) var(--space);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03);
+      animation: cardIn 0.5s ease 0s forwards;
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+    }
+    .hero__card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius: 0 0 3px 3px;
+    }
+    .hero__badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--space);
+      opacity: 0;
+      animation: fadeIn 0.35s ease 0.1s forwards;
+    }
+    .hero__question {
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: clamp(1.35rem, 5vw, 1.75rem);
+      line-height: 1.35;
+      margin: 0 0 var(--space);
+      color: var(--text);
+      opacity: 0;
+      animation: fadeIn 0.35s ease 0.15s forwards;
+    }
+    .hero__question--2 {
+      margin-bottom: var(--space-lg);
+      opacity: 0;
+      animation: fadeIn 0.35s ease 0.22s forwards;
+    }
+    .hero__question em { color: var(--accent); font-style: italic; }
+    .hero__intro {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      margin: 0 0 var(--space-lg);
+      opacity: 0;
+      animation: fadeIn 0.35s ease 0.28s forwards;
+    }
+    .hero__cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.15rem 2.25rem;
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: #0a0a0c;
+      background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent) 50%, #b8921f 100%);
+      border: none;
+      border-radius: var(--radius-btn);
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      opacity: 0;
+      animation: fadeIn 0.4s ease 0.35s forwards, ctaPulse 2s ease-in-out 1.2s infinite;
+      box-shadow: 0 4px 20px rgba(201,162,39,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero__cta::after {
+      content: '→';
+      font-size: 1.2em;
+      transition: transform 0.25s ease;
+    }
+    .hero__cta:hover {
+      opacity: 1;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 40px rgba(201,162,39,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+      filter: brightness(1.08);
+      animation: none;
+    }
+    .hero__cta:hover::after { transform: translateX(4px); }
+
+    /* Grão sutil (textura emocional) */
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Divisor entre seções */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,162,39,0.3), transparent);
+      margin: 0;
+      border: none;
+    }
+    .divider--wave {
+      height: 24px;
+      background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 24' fill='none'%3E%3Cpath d='M0 24V12c100-8 200-8 300 0s200 8 300 0 200-8 300 0 200 8 300 0 200-8 300 0V24H0z' fill='%2312121a'/%3E%3C/svg%3E") center/cover no-repeat;
+    }
+
+    /* Dor — Amplificar */
+    .pain { background: var(--bg-soft); position: relative; overflow: hidden; }
+    .pain::before {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(201,162,39,0.04) 0%, transparent 70%);
+      top: -100px; left: -100px;
+      pointer-events: none;
+    }
+    .pain__img-wrap {
+      width: 100%;
+      max-width: 20rem;
+      margin: 0 auto var(--space-xl);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+    .pain__img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      vertical-align: middle;
+      transition: transform 0.5s ease;
+    }
+    .pain__img-wrap:hover img { transform: scale(1.02); }
+    .pain .wrap { padding: 0 var(--space); }
+    .pain__block { margin-bottom: var(--space-xl); }
+    .pain__block:last-child { margin-bottom: 0; }
+    .pain__p {
+      margin: 0 0 var(--space);
+      font-size: 1.0625rem;
+      color: var(--text-muted);
+      opacity: 0;
+      animation: fadeIn 0.4s ease forwards;
+    }
+    .pain__block:nth-child(3) .pain__p { animation-delay: 0.05s; }
+    .pain__block:nth-child(3) .pain__p + .pain__p { animation-delay: 0.12s; }
+    .pain__block:nth-child(4) .pain__p { animation-delay: 0.18s; }
+    .pain__block:nth-child(4) .pain__p + .pain__p { animation-delay: 0.24s; }
+    .pain__quote .pain__p:nth-child(1) { animation-delay: 0.3s; }
+    .pain__quote .pain__p:nth-child(2) { animation-delay: 0.36s; }
+    .pain__quote .pain__p:nth-child(3) { animation-delay: 0.42s; }
+    .pain__p:last-child { margin-bottom: 0; }
+    .pain__p strong { color: var(--text); }
+    .pain__p .highlight { color: var(--accent); }
+    .pain__lead {
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: clamp(1.5rem, 4vw, 1.85rem);
+      color: var(--text);
+      margin: 0 0 var(--space-lg);
+      line-height: 1.3;
+      padding-left: var(--space);
+      border-left: 4px solid var(--accent);
+    }
+    .pain__quote {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: var(--space-lg);
+      border-left: 4px solid var(--accent);
+      margin: var(--space-lg) 0;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .pain__quote .pain__p { margin-bottom: 0; }
+
+    /* Esperança — Código e mapa */
+    .hope { position: relative; }
+    .hope .wrap { padding: 0 var(--space); }
+    .hope__box {
+      background: linear-gradient(145deg, var(--bg-card) 0%, rgba(22,22,29,0.8) 100%);
+      border: 1px solid rgba(201,162,39,0.15);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+      position: relative;
+      overflow: hidden;
+    }
+    .hope__box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.6;
+    }
+    .hope__img-wrap {
+      width: 100%;
+      margin: 0 auto var(--space-xl);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 24px 56px rgba(0,0,0,0.35);
+    }
+    .hope__img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .hope__img-wrap:hover img { transform: scale(1.02); }
+    .hope__title {
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: clamp(1.75rem, 5vw, 2.1rem);
+      margin: 0 0 var(--space-lg);
+      line-height: 1.25;
+      color: var(--text);
+    }
+    .hope__title span { color: var(--accent); }
+    .hope__p {
+      margin: 0 0 var(--space);
+      color: var(--text-muted);
+      font-size: 1.0625rem;
+    }
+    .hope__p:last-child { margin-bottom: 0; }
+    .hope__p strong { color: var(--text); }
+
+    /* Transformação emocional */
+    .transform { background: var(--bg-soft); position: relative; }
+    .transform__title {
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: clamp(1.5rem, 4vw, 1.9rem);
+      margin: 0 0 var(--space-lg);
+      text-align: center;
+      color: var(--text);
+    }
+    .transform__list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .transform__item {
+      padding: var(--space) var(--space) var(--space) var(--space-lg);
+      margin-bottom: var(--space);
+      position: relative;
+      color: var(--text-muted);
+      font-size: 1rem;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .transform__item:last-child { margin-bottom: 0; }
+    .transform__item:hover {
+      border-color: rgba(201,162,39,0.25);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      transform: translateX(4px);
+    }
+    .transform__item::before {
+      content: '';
+      position: absolute;
+      left: var(--space);
+      top: 1.35rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--accent-soft);
+    }
+    .transform__item strong { color: var(--accent); }
+
+    /* Medo da não decisão */
+    .fear { position: relative; }
+    .fear .wrap { padding: 0 var(--space); text-align: center; }
+    .fear__box {
+      background: linear-gradient(145deg, rgba(22,22,29,0.9) 0%, rgba(10,10,12,0.95) 100%);
+      border: 1px solid rgba(201,162,39,0.25);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-top: var(--space-lg);
+      box-shadow: 0 0 60px rgba(201,162,39,0.08), inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+    .fear__img-wrap {
+      width: 100%;
+      max-width: 16rem;
+      margin: 0 auto var(--space-lg);
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--accent-soft);
+      box-shadow: 0 0 40px var(--accent-soft);
+    }
+    .fear__img-wrap img { width: 100%; height: auto; display: block; transition: transform 0.4s ease; }
+    .fear__img-wrap:hover img { transform: scale(1.03); }
+    .fear__p {
+      font-family: var(--font-head);
+      font-size: clamp(1.35rem, 4vw, 1.65rem);
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--text);
+      margin: 0 0 var(--space);
+    }
+    .fear__p--2 { margin-bottom: var(--space-lg); color: var(--text-muted); }
+    .fear__p span { color: var(--accent); }
+
+    /* CTA emocional */
+    .cta {
+      background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%);
+      text-align: center;
+      padding: var(--space-xxl) 0;
+    }
+    .cta__title {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: clamp(1.75rem, 5vw, 2.25rem);
+      margin: 0 0 var(--space);
+      line-height: 1.25;
+      color: var(--text);
+    }
+    .cta__title span { color: var(--accent); }
+    .cta__p {
+      color: var(--text-muted);
+      margin: 0 0 var(--space-lg);
+      font-size: 1rem;
+    }
+    .cta__box {
+      background: linear-gradient(165deg, var(--bg-card) 0%, rgba(22,22,29,0.95) 100%);
+      border: 1px solid rgba(201,162,39,0.25);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      max-width: 28rem;
+      margin: 0 auto var(--space-lg);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .cta__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 24rem;
+      padding: 1.35rem 2rem;
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #0a0a0c;
+      background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent) 50%, #b8921f 100%);
+      border: none;
+      border-radius: var(--radius-btn);
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(201,162,39,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+    .cta__btn::after { content: '→'; font-size: 1.15em; }
+    .cta__btn {
+      animation: ctaPulse 2s ease-in-out 0.5s infinite;
+    }
+    .cta__btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 40px rgba(201,162,39,0.5), inset 0 1px 0 rgba(255,255,255,0.25);
+      filter: brightness(1.08);
+      animation: none;
+    }
+    .cta__img-wrap {
+      width: 100%;
+      max-width: 14rem;
+      margin: 0 auto var(--space-lg);
+    }
+    .cta__img-wrap img { width: 100%; height: auto; display: block; filter: drop-shadow(0 0 20px var(--accent-soft)); }
+    .cta__alt {
+      display: block;
+      margin-top: var(--space);
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .cta__alt:hover { color: var(--accent); }
+    .cta__urgency { margin-top: var(--space-lg); font-size: 0.8125rem; color: var(--text-muted); }
+
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    /* Botão flutuante — Checkout (chamativo) */
+    .float-cart {
+      position: fixed;
+      bottom: var(--space);
+      right: var(--space);
+      z-index: 9998;
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      background: linear-gradient(155deg, #e8c547 0%, var(--accent) 40%, #a67c0a 100%);
+      border: 2px solid rgba(255,255,255,0.35);
+      box-shadow: 0 6px 28px rgba(201,162,39,0.5), 0 0 0 0 rgba(201,162,39,0.4), inset 0 1px 0 rgba(255,255,255,0.4);
+      color: #0a0a0c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+      animation: floatCartPulse 2.2s ease-in-out infinite;
+    }
+    .float-cart::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid rgba(201,162,39,0.5);
+      opacity: 0;
+      animation: floatCartRing 2.2s ease-out infinite;
+    }
+    .float-cart:hover {
+      transform: scale(1.12);
+      box-shadow: 0 10px 40px rgba(201,162,39,0.6), 0 0 30px rgba(201,162,39,0.25), inset 0 1px 0 rgba(255,255,255,0.5);
+      filter: brightness(1.15);
+      animation: none;
+    }
+    .float-cart:hover::before { animation: none; opacity: 0; }
+    .float-cart:active { transform: scale(1.02); }
+    .float-cart__icon {
+      width: 1.75rem;
+      height: 1.75rem;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+    }
+    @keyframes floatCartPulse {
+      0%, 100% { box-shadow: 0 6px 28px rgba(201,162,39,0.5), 0 0 0 0 rgba(201,162,39,0.35), inset 0 1px 0 rgba(255,255,255,0.4); }
+      50% { box-shadow: 0 8px 32px rgba(201,162,39,0.6), 0 0 0 12px rgba(201,162,39,0), inset 0 1px 0 rgba(255,255,255,0.4); }
+    }
+    @keyframes floatCartRing {
+      0% { transform: scale(0.85); opacity: 0.6; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+    @media (min-width: 640px) {
+      .float-cart {
+        width: 4.5rem;
+        height: 4.5rem;
+        bottom: var(--space-lg);
+        right: var(--space-lg);
+      }
+      .float-cart__icon { width: 2rem; height: 2rem; }
+    }
+
+    /* Notificação de atividade (prova social) */
+    .activity-notif {
+      position: fixed;
+      bottom: var(--space);
+      left: var(--space);
+      right: var(--space);
+      max-width: 22rem;
+      z-index: 9998;
+      background: linear-gradient(145deg, var(--bg-card) 0%, rgba(10,10,12,0.98) 100%);
+      border: 1px solid rgba(201,162,39,0.25);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+      font-size: 0.8125rem;
+      line-height: 1.4;
+      color: var(--text-muted);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: none;
+    }
+    .activity-notif.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .activity-notif__dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: #22c55e;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+      animation: pulseDot 1.5s ease-in-out infinite;
+    }
+    .activity-notif__strong { color: var(--accent); font-weight: 600; }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+      50% { opacity: 0.9; }
+      70% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+    }
+
+    /* Footer */
+    .footer { padding: var(--space-lg) var(--space); text-align: center; border-top: 1px solid rgba(255,255,255,0.06); }
+    .footer__logo { height: 2rem; width: auto; max-width: 120px; margin-bottom: var(--space); opacity: 0.8; }
+    .footer__p { margin: 0; font-size: 0.8125rem; color: var(--text-muted); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes cardIn {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes glowSoft {
+      0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+      50% { opacity: 0.9; transform: translateX(-50%) scale(1.03); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(8px, -12px); }
+    }
+    @keyframes ctaPulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(201,162,39,0.4), inset 0 1px 0 rgba(255,255,255,0.2); }
+      50% { box-shadow: 0 4px 28px rgba(201,162,39,0.55), 0 0 0 2px rgba(201,162,39,0.15), inset 0 1px 0 rgba(255,255,255,0.2); }
+    }
+    @keyframes shine {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    /* Seção Vídeo — Victor Done (prioridade de carregamento) */
+    .video-section {
+      padding: var(--space-xl) 0;
+      background: var(--bg);
+    }
+    .video-section .wrap {
+      max-width: 56rem;
+      padding: 0 var(--space);
+    }
+    .video-section__title {
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: clamp(1.35rem, 4vw, 1.65rem);
+      color: var(--text);
+      margin: 0 0 var(--space);
+      text-align: center;
+    }
+    .video-section__frame-wrap {
+      position: relative;
+      width: 100%;
+      min-height: 85vh;
+      height: 85vh;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      background: #000;
+    }
+    .video-section__frame-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      overflow: hidden;
+    }
+    @media (min-width: 640px) {
+      .section { padding: 5rem 0; }
+      .hero { min-height: 78vh; }
+      .cta__btn { width: auto; padding: 1.25rem 2.5rem; }
+      .video-section__frame-wrap {
+        min-height: 95vh;
+        height: 95vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <a href="https://go.hotmart.com/X104585427B?ap=6295" class="float-cart" target="_blank" rel="noopener noreferrer" title="Garantir acesso — Checkout" aria-label="Garantir acesso e ir para o checkout">
+    <svg class="float-cart__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+    </svg>
+  </a>
+  <div id="activity-notif" class="activity-notif" aria-live="polite" role="status"></div>
+  <main>
+    <header class="hero section--hero">
+      <div class="hero__cover" aria-hidden="true">
+        <span class="hero__shape hero__shape--1"></span>
+        <span class="hero__shape hero__shape--2"></span>
+        <span class="hero__shape hero__shape--3"></span>
+        <img class="hero__cover-img" src="imagens/imagem_produto1536x1024.png" alt="O Mapa do Código — Acesso vitalício" loading="eager" decoding="async" width="1536" height="1024" onerror="this.style.display='none'">
+        <div class="hero__cover-overlay"></div>
+      </div>
+      <div class="hero__logo-wrap">
+        <img class="hero__logo" src="imagens/logo.png" alt="O Código de Deus" width="180" height="44" loading="eager" onerror="this.parentElement.style.display='none'">
+      </div>
+      <div class="hero__content wrap">
+        <div class="hero__card">
+          <p class="hero__badge">✦ Acesso vitalício</p>
+          <p class="hero__question">Você sente que <em>nasceu para mais</em>, mas algo sempre trava?</p>
+          <p class="hero__question hero__question--2">Já percebeu que sua vida parece <em>andar em círculos</em>?</p>
+          <p class="hero__intro">Existe um mapa. E ele começa aqui.</p>
+          <a href="https://go.hotmart.com/X104585427B?ap=6295" class="hero__cta" rel="noopener noreferrer" target="_blank">Eu escolho ativar meu código agora</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="video-section" aria-labelledby="video-title">
+      <div class="wrap video-section__wrap">
+        <h2 id="video-title" class="video-section__title">Assista ao vídeo</h2>
+        <div class="video-section__frame-wrap">
+          <iframe
+            src="https://victordone.com.br/"
+            title="Vídeo — Victor Done"
+            loading="eager"
+            scrolling="no"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider--wave" aria-hidden="true"></div>
+
+    <section class="pain section" aria-labelledby="pain-head">
+      <div class="wrap">
+        <div class="pain__img-wrap">
+          <img src="imagens/dor.jpg" alt="" loading="lazy" width="400" height="300" onerror="this.parentElement.style.display='none'">
+        </div>
+        <h2 id="pain-head" class="pain__lead">A gente te enxerga.</h2>
+        <div class="pain__block">
+          <p class="pain__p">Você tenta. De verdade. E mesmo assim não sai do lugar.</p>
+          <p class="pain__p">Olha em volta e vê gente prosperando. Conquistando. Enquanto você sente que <strong>faz de tudo</strong> e nada muda.</p>
+        </div>
+        <div class="pain__block">
+          <p class="pain__p">O cansaço não é de não querer. É de tentar sem ver resultado.</p>
+          <p class="pain__p">E no fundo bate o medo: <span class="highlight">e se daqui a anos eu continuar exatamente aqui?</span></p>
+        </div>
+        <div class="pain__quote">
+          <p class="pain__p">Perdido. Bloqueado. Frustrado.</p>
+          <p class="pain__p">Sem saber por onde ir.</p>
+          <p class="pain__p">Isso dói. E a gente sabe.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" aria-hidden="true">
+
+    <section class="hope section" aria-labelledby="hope-title">
+      <div class="wrap">
+        <div class="hope__img-wrap">
+          <img src="imagens/imagem_produto1536x1024.png" alt="O Mapa do Código — produto com acesso vitalício" loading="lazy" width="1536" height="1024" onerror="this.parentElement.style.display='none'">
+        </div>
+        <div class="hope__box">
+          <h2 id="hope-title" class="hope__title">O problema <span>não é você.</span></h2>
+          <p class="hope__p">Não é falta de esforço. Não é falta de merecimento.</p>
+          <p class="hope__p">Existe um <strong>código invisível</strong> que regem prosperidade, paz e a capacidade de manifestar o que você deseja. A maioria vive sem enxergá-lo.</p>
+          <p class="hope__p">Mas ele existe. E existe um <strong>mapa</strong> que mostra o caminho — com nitidez. Passo a passo.</p>
+          <p class="hope__p">Não é teoria solta. É um sistema. Para quem está cansado de andar no escuro e quer, finalmente, <strong>ver claro</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="transform section" aria-labelledby="transform-title">
+      <div class="wrap">
+        <h2 id="transform-title" class="transform__title">Como você vai se sentir quando o código estiver ativado</h2>
+        <ul class="transform__list">
+          <li class="transform__item"><strong>Confiante.</strong> Sabendo que o caminho existe e que você pode percorrê-lo.</li>
+          <li class="transform__item"><strong>Com direção.</strong> Sem mais círculos. Com um mapa real na mão.</li>
+          <li class="transform__item"><strong>Energizada.</strong> Com o emocional estável e a vida em movimento.</li>
+          <li class="transform__item"><strong>Em paz.</strong> Porque a confusão dá lugar à clareza.</li>
+          <li class="transform__item"><strong>No controle.</strong> Deixando de atrair caos e passando a atrair oportunidades.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="fear section" aria-labelledby="fear-title">
+      <div class="wrap">
+        <div class="fear__img-wrap">
+          <img src="imagens/decisao.jpg" alt="" loading="lazy" width="320" height="320" onerror="this.parentElement.style.display='none'">
+        </div>
+        <h2 id="fear-title" class="visually-hidden">A escolha de amanhã</h2>
+        <div class="fear__box">
+          <p class="fear__p">Daqui a um ano, você pode estar <span>exatamente no mesmo lugar</span>.</p>
+          <p class="fear__p fear__p--2">Ou pode estar vivendo uma realidade completamente diferente.</p>
+          <p class="fear__p">A decisão é agora.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cta" class="cta section" aria-labelledby="cta-title">
+      <div class="wrap">
+        <div class="cta__box">
+          <div class="cta__img-wrap">
+            <img src="imagens/logo.png" alt="O Código de Deus" width="140" height="34" loading="lazy" onerror="this.parentElement.style.display='none'">
+          </div>
+          <h2 id="cta-title" class="cta__title">Isso é <span>pra você.</span></h2>
+          <p class="cta__p">Quem sabe que nasceu para mais. Quem está pronto para parar de sobreviver e começar a viver.</p>
+          <a href="https://go.hotmart.com/X104585427B?ap=6295" class="cta__btn" rel="noopener noreferrer" target="_blank">Eu estou pronto para mudar</a>
+          <a href="https://go.hotmart.com/X104585427B?ap=6295" class="cta__alt" rel="noopener noreferrer" target="_blank">Quero parar de sobreviver e começar a viver</a>
+          <p class="cta__urgency">Acesso vitalício. Imediato após a confirmação. Sem mensalidades.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <img class="footer__logo" src="imagens/logo.png" alt="O Código de Deus" width="120" height="32" loading="lazy" onerror="this.style.display='none'">
+      <p class="footer__p">O Código de Deus — O Mapa do Código. Todos os direitos reservados.</p>
+    </footer>
+  </main>
+  <script>
+(function() {
+  var el = document.getElementById('activity-notif');
+  if (!el) return;
+
+  var pageStartTime = Date.now();
+  var CICLO_MAX = 180;
+
+  function rand(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  function pick(arr) {
+    return arr[rand(0, arr.length - 1)];
+  }
+
+  function getCycleSeconds() {
+    var elapsed = (Date.now() - pageStartTime) / 1000;
+    return Math.floor(elapsed % CICLO_MAX);
+  }
+
+  function getTempoAgo() {
+    var seg = getCycleSeconds();
+    var step = seg < 15 ? 15 : Math.min(CICLO_MAX, Math.round(seg / 15) * 15);
+    if (step === 60) return '1 minuto';
+    if (step === 90) return '1 minuto e meio';
+    if (step === 120) return '2 minutos';
+    if (step === 150) return '2 minutos e meio';
+    if (step === 180) return '3 minutos';
+    return step + ' segundos';
+  }
+
+  function getTempoUltimos() {
+    var seg = getCycleSeconds();
+    var opts = [10, 15, 20, 30];
+    return opts[seg % opts.length];
+  }
+
+  var templates = [
+    function() {
+      var n = rand(180, 420);
+      var tempo = getTempoAgo();
+      return '<span class="activity-notif__dot"></span><span class="activity-notif__strong">' + n + ' pessoas</span> visualizaram e interagiram com esta página há ' + tempo + '.';
+    },
+    function() {
+      var n = rand(85, 280);
+      var seg = getTempoUltimos();
+      return '<span class="activity-notif__dot"></span>Mais de <span class="activity-notif__strong">' + n + ' pessoas</span> nos últimos ' + seg + ' segundos.';
+    },
+    function() {
+      var n = rand(120, 350);
+      return '<span class="activity-notif__dot"></span><span class="activity-notif__strong">' + n + ' pessoas</span> visualizando esta página agora.';
+    },
+    function() {
+      var n = rand(95, 200);
+      var seg = getTempoUltimos();
+      var tempo = seg === 60 ? '1 minuto' : seg + ' segundos';
+      return '<span class="activity-notif__dot"></span>Nos últimos ' + seg + ' segundos, <span class="activity-notif__strong">' + n + ' pessoas</span> acessaram.';
+    },
+    function() {
+      var n = rand(250, 400);
+      var tempo = getTempoAgo();
+      return '<span class="activity-notif__dot"></span><span class="activity-notif__strong">' + n + ' pessoas</span> já viram esta página há ' + tempo + '.';
+    }
+  ];
+
+  var lastIndex = -1;
+  function show() {
+    var i = rand(0, templates.length - 1);
+    if (templates.length > 1 && i === lastIndex) i = (i + 1) % templates.length;
+    lastIndex = i;
+    el.innerHTML = templates[i]();
+    el.classList.add('is-visible');
+  }
+
+  function scheduleNext() {
+    var delay = rand(8000, 15000);
+    setTimeout(function() {
+      show();
+      scheduleNext();
+    }, delay);
+  }
+
+  var firstDelay = rand(5000, 9000);
+  setTimeout(function() {
+    show();
+    scheduleNext();
+  }, firstDelay);
+})();
+  </script>
+</body>
+</html>
